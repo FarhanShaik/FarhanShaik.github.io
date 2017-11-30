@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+    <header>
+        <style type="text/css">
+            body{
+                background: black !important;
+            } 
+            h1{
+                clear: none !important;
+                margin: 15px 0px 5px 0px !important;
+                color: lightsteelblue !important;
+            }
+            p{
+                clear: none !important;
+                color: white !important;
+            }
+            /* canvas{
+                padding: 50px !important;
+            } */
+                </style>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    </header>
+<body>
+    <div class="container" style="margin:0px 0px 0px 100px">
+        <h1>Snake Game</h1>
+        <p>
+            Basic snake game <br>
+            Use arrow keys to move <br>
+            I made it wrap borders cause it looks nicer fight me
+        </p>
+        
+        
+        
+    </div>
+    
+</body>
+
+
+
+
+
+
+
+<br>
+
+<canvas id="gc" width="400" height="400"  style="border:20px solid #ffff;margin:0px 0px 0px 70px;  "></canvas>
+<script>
+window.onload=function() {
+    canv=document.getElementById("gc");
+    ctx=canv.getContext("2d");
+    document.addEventListener("keydown",keyPush);
+    setInterval(game,1000/15);
+}
+px=py=10;
+gs=tc=20;
+ax=ay=15;
+xv=yv=0;
+trail=[];
+tail = 5;
+function game() {
+    px+=xv;
+    py+=yv;
+    if(px<0) {
+        px= tc-1;
+    }
+    if(px>tc-1) {
+        px= 0;
+    }
+    if(py<0) {
+        py= tc-1;
+    }
+    if(py>tc-1) {
+        py= 0;
+    }
+    ctx.fillStyle="lime";
+    ctx.fillRect(0,0,canv.width,canv.height);
+ 
+    ctx.fillStyle="green";
+    for(var i=0;i<trail.length;i++) {
+        ctx.fillRect(trail[i].x*gs,trail[i].y*gs,gs-2,gs-2);
+        if(trail[i].x==px && trail[i].y==py) {
+            tail = 5;
+        }
+    }
+    trail.push({x:px,y:py});
+    while(trail.length>tail) {
+    trail.shift();
+    }
+ 
+    if(ax==px && ay==py) {
+        tail++;
+        ax=Math.floor(Math.random()*tc);
+        ay=Math.floor(Math.random()*tc);
+    }
+    ctx.fillStyle="red";
+    ctx.fillRect(ax*gs,ay*gs,gs-2,gs-2);
+}
+function keyPush(evt) {
+    switch(evt.keyCode) {
+        case 37:
+            xv=-1;yv=0;
+            break;
+        case 38:
+            xv=0;yv=-1;
+            break;
+        case 39:
+            xv=1;yv=0;
+            break;
+        case 40:
+            xv=0;yv=1;
+            break;
+    }
+}
+</script>
+
+</html>
